@@ -10,6 +10,9 @@ import "./globals.css";
 //load bootstrap js bundle on-mount
 import BootstrapClient from "@/components/providers/BootstrapClient";
 
+//thanstack query client provider
+import QueryProvider from "@/components/providers/QueryProvider";
+
 export const metadata: Metadata = {
   title: "Arvan Challenge Dashboard",
   description: "a dashboard to control blogs",
@@ -23,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={HelveticaNeueFont.className}>
-        {children}
+        <QueryProvider>{children}</QueryProvider>
         <BootstrapClient />
       </body>
     </html>

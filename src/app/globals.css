@@ -12,7 +12,6 @@
   --dark-sky-blue: #5bc0de;
   --warm-grey: #707070;
   --brick: #cb2e25;
-  --brick: #cb2e25;
   --slate-gray: #818a91;
   --water-blue: #1c7cd5;
   --silver: #eceeef;
@@ -32,6 +31,12 @@ body {
   html {
     color-scheme: dark;
   }
+}
+.small-text {
+  font-size: small;
+}
+.error-text {
+  color: var(--brick);
 }
 .Text-Style-4 {
   font-family: HelveticaNeue;
@@ -76,7 +81,26 @@ body {
   text-align: left;
   color: var(--charcoal-grey);
 }
-
+input {
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  display: block;
+  font-size: 1rem;
+  color: #495057;
+  background-color: #ffffff;
+  border-radius: 4px;
+  border: solid 1px #ddd;
+  background-color: #fff;
+}
+textarea:focus,
+input:focus {
+  outline: solid var(--dark-sky-blue);
+}
+textarea[aria-invalid="true"]:focus,
+input[aria-invalid="true"]:focus {
+  outline: solid var(--brick);
+}
 /* @media (prefers-color-scheme: dark) {
   :root {
   }

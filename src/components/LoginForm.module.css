@@ -1,0 +1,33 @@
+.form {
+  max-width: 450px;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-evenly;
+  row-gap: 20px;
+  background-color: var(--silver);
+  padding: 40px 20px 0px;
+  border-radius: 4px;
+}
+.form h2 {
+  font-size: 47px;
+  font-weight: 400;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.19;
+  letter-spacing: normal;
+  color: var(--warm-grey);
+  text-align: center;
+}
+.form p {
+  font-size: small;
+}
+.form p a {
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--charcoal-grey);
+}
+.errorText {
+  color: var(--brick);
+}

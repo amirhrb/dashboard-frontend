@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
-function BootstrapClient() {
-  useEffect(() => {
+const BootstrapClient = () => {
+  useLayoutEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
 
-  return null;
-}
+  return <></>;
+};
 
 export default BootstrapClient;

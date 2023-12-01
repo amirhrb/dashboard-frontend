@@ -1,21 +1,25 @@
-import { NextFont } from "next/dist/compiled/@next/font";
 import localFont from "next/font/local";
 
-const HelveticaNeueFont: NextFont = localFont({
+const HelveticaNeueFont = localFont({
   src: [
     {
-      path: "./HelveticaNeue.ttf",
-      weight: "normal",
-      style: "normal",
-    },
-    {
-      path: "./HelveticaNeue.woff",
-      weight: "normal",
-      style: "normal",
-    },
-    {
       path: "./HelveticaNeue.woff2",
-      weight: "normal",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./HelveticaNeue-Roman.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./HelveticaNeue-Light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "./HelveticaNeue-Thin.woff2",
+      weight: "200",
       style: "normal",
     },
   ],
