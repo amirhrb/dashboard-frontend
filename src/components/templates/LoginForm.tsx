@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 //styles
-import styles from "@/components/LoginForm.module.css";
+import styles from "./LoginForm.module.css";
 
 //3rd party libs
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -13,14 +13,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 //custom elements
-import Input from "./elements/Input";
+import Input from "../elements/Input";
 
 //custom hooks
-import useAlert from "../hooks/useAlert";
+import useAlert from "../../hooks/useAlert";
 import useAuth from "@/hooks/useAuth";
 
 //contexts
-import { UserDataContext } from "./providers/UserContextProvider";
+import { UserDataContext } from "../providers/UserContextProvider";
 
 //form validation
 const schema = yup
@@ -43,7 +43,7 @@ const LoginForm = () => {
   const { replace } = useRouter();
 
   // custom hooks
-  const { AlertProvider, setShow } = useAlert(false);
+  const { AlertProvider, setAlert } = useAlert();
   const { loginUser, getCurrentUser } = useAuth();
 
   const { userData, setUserData } = useContext(UserDataContext);
@@ -80,7 +80,11 @@ const LoginForm = () => {
       if (res.user) {
         setUserData({ data: res, status: "authorized" });
       } else {
-        setShow(true);
+        setAlert({
+          isShowed: true,
+          variant: "danger",
+          message: "Login Failed!  User name and/or Password is invalid",
+        });
       }
     });
   };
@@ -110,9 +114,6 @@ const LoginForm = () => {
         </p>
       </form>
       <AlertProvider
-        dismissible
-        status="danger"
-        message="Login Failed!  User name and/or Password is invalid"
         styles={{ position: "absolute", top: "10px", right: "10px" }}
       />
     </>

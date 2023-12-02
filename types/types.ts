@@ -1,3 +1,4 @@
+import { CSSProperties, Dispatch, SetStateAction } from "react";
 import type { UrlObject } from "url";
 export type Url = string | UrlObject;
 export type InternalLinkProps = {
@@ -70,3 +71,26 @@ export type InternalLinkProps = {
    */
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 };
+export type AlertComponentTypes = ({
+  styles,
+  cn,
+}: {
+  styles?: CSSProperties;
+  cn?: string;
+}) => JSX.Element | "";
+export type AlertVariants =
+  | "primary"
+  | "secondary"
+  | "success"
+  | "danger"
+  | "warning"
+  | "info"
+  | "light"
+  | "dark";
+export type AlertTypes = {
+  isShowed: boolean;
+  message: string;
+  variant?: AlertVariants | undefined;
+  dismissible?: boolean | undefined;
+};
+export type SetAlertTypes = Dispatch<SetStateAction<AlertTypes>>;

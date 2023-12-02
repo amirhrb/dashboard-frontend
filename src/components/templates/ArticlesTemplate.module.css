@@ -1,0 +1,13 @@
+.container thead {
+  background-color: var(--silver);
+  color: var(--gunmetal);
+  font-size: 16px;
+  border: none;
+}
+.container thead th {
+  padding: 10px 20px;
+}
+.container tbody td {
+  text-align: center;
+  padding: 20px 0;
+}

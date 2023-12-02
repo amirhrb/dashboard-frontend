@@ -1,6 +1,6 @@
 import React from "react";
 import { FieldErrors, Path, UseFormRegister } from "react-hook-form";
-import { FormDataTypes } from "../LoginForm";
+import { FormDataTypes } from "../templates/LoginForm";
 
 import styles from "./Input.module.css";
 

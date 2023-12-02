@@ -1,38 +1,27 @@
-import { CSSProperties, useState } from "react";
+import { useState } from "react";
 import { Alert } from "react-bootstrap";
 
-type AlertTypes = {
-  message: string;
-  status:
-    | "primary"
-    | "secondary"
-    | "success"
-    | "danger"
-    | "warning"
-    | "info"
-    | "light"
-    | "dark";
-  dismissible: boolean;
-  styles?: CSSProperties;
-  cn?: string | undefined;
-};
+import {
+  AlertComponentTypes,
+  AlertTypes,
+  SetAlertTypes,
+} from "../../types/types";
 
 const useAlert = (defaultValue: boolean = false) => {
-  const [show, setShow] = useState<boolean>(defaultValue);
+  const [alert, setAlert] = useState<AlertTypes>({
+    isShowed: defaultValue,
+    message: "",
+    variant: "success",
+    dismissible: true,
+  });
 
   //Alert component
-  const AlertProvider = ({
-    message,
-    status,
-    dismissible,
-    styles,
-    cn,
-  }: AlertTypes) => {
-    return show ? (
-      <Alert variant={status} className={cn} style={styles}>
-        <span>{message}</span>
+  const AlertProvider: AlertComponentTypes = ({ styles, cn }) => {
+    return alert.isShowed ? (
+      <Alert variant={alert.variant} className={cn} style={styles}>
+        <span>{alert.message}</span>
         <button
-          onClick={() => setShow(false)}
+          onClick={() => setAlert({ isShowed: false, message: "" })}
           style={{
             color: "inherit",
             backgroundColor: "inherit",
@@ -40,7 +29,7 @@ const useAlert = (defaultValue: boolean = false) => {
             marginLeft: "1rem",
           }}
         >
-          {dismissible && (
+          {alert.dismissible && (
             <span
               aria-hidden="true"
               style={{
@@ -60,7 +49,12 @@ const useAlert = (defaultValue: boolean = false) => {
   };
   return {
     AlertProvider,
-    setShow,
+    alertData: alert,
+    setAlert,
+  } as {
+    setAlert: SetAlertTypes;
+    alertData: AlertTypes;
+    AlertProvider: AlertComponentTypes;
   };
 };
 

@@ -1,5 +1,5 @@
 .navbar {
-  width: 100dvw;
+  width: 100vw;
   min-height: var(--header-min-size);
   position: sticky;
   display: flex;
@@ -25,4 +25,18 @@
   white-space: nowrap;
   font-size: 22px;
   line-height: 1.23;
+}
+@media (max-width: 480px) {
+  .container {
+    padding: 10px 10px;
+  }
+}
+@media (max-width: 280px) {
+  .heading {
+    font-size: 18px;
+  }
+  .textsContainer span {
+    font-size: small;
+    white-space: unset;
+  }
 }

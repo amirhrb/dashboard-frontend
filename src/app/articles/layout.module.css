@@ -3,3 +3,17 @@
   display: grid;
   grid-template-columns: 2fr 10fr;
 }
+.gridContainer main {
+  padding: 30px;
+  max-width: calc(100svw - 140px);
+}
+@media (max-width: 480px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+    grid-template-rows: 60px 1fr;
+    align-items: start;
+  }
+  .gridContainer main {
+    max-width: 100svw;
+  }
+}

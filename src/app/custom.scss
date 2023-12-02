@@ -5,5 +5,10 @@ $theme-colors: (
   "success": #5cb85c,
   "warning": #f0ad4e,
 );
+$alert-margin-bottom: 0;
+.alert {
+  padding: 15px;
+  white-space: nowrap;
+}
 
 @import "bootstrap/scss/bootstrap";
