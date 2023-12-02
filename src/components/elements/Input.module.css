@@ -1,0 +1,3 @@
+.focusedInvalid {
+  outline: solid var(--brick);
+}

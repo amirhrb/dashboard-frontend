@@ -1,7 +1,7 @@
 @import "../fonts/HelveticaNeue/font.css";
 
-/* color palette */
 :root {
+  /* color palette */
   --charcoal-grey: #373a3c;
   --pinkish-grey: #e7cecd;
   --light-grey-green: #d5e6c7;
@@ -15,6 +15,14 @@
   --slate-gray: #818a91;
   --water-blue: #1c7cd5;
   --silver: #eceeef;
+  /* breakpoints */
+  --x-large: 1440px;
+  --large: 1025px;
+  --medium: 769px;
+  --small: 481px;
+  --x-small: 320px;
+  /* minimum part sizes */
+  --header-min-size: 60px;
 }
 * {
   box-sizing: border-box;
@@ -94,11 +102,14 @@ input {
   background-color: #fff;
 }
 textarea:focus,
-input:focus {
+textarea:focus-visible input:focus,
+input:focus-visible {
   outline: solid var(--dark-sky-blue);
 }
 textarea[aria-invalid="true"]:focus,
-input[aria-invalid="true"]:focus {
+input[aria-invalid="true"]:focus,
+textarea[aria-invalid="true"]:focus-visible,
+input[aria-invalid="true"]:focus-visible {
   outline: solid var(--brick);
 }
 /* @media (prefers-color-scheme: dark) {

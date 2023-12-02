@@ -13,6 +13,9 @@ import BootstrapClient from "@/components/providers/BootstrapClient";
 //thanstack query client provider
 import QueryProvider from "@/components/providers/QueryProvider";
 
+//context
+import AuthContextProvider from "@/components/providers/UserContextProvider";
+
 export const metadata: Metadata = {
   title: "Arvan Challenge Dashboard",
   description: "a dashboard to control blogs",
@@ -26,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={HelveticaNeueFont.className}>
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <AuthContextProvider>{children}</AuthContextProvider>
+        </QueryProvider>
         <BootstrapClient />
       </body>
     </html>
