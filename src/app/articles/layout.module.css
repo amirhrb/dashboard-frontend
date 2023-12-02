@@ -1,0 +1,5 @@
+.gridContainer {
+  min-height: calc(100svh - var(--header-min-size));
+  display: grid;
+  grid-template-columns: 2fr 10fr;
+}

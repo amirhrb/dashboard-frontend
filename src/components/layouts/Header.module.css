@@ -1,0 +1,28 @@
+.navbar {
+  width: 100dvw;
+  min-height: var(--header-min-size);
+  position: sticky;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--charcoal-grey);
+  color: #fff;
+}
+.container {
+  width: 100%;
+  max-width: var(--x-large);
+  padding: 10px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.textsContainer span {
+  white-space: nowrap;
+}
+.heading {
+  display: inline-block;
+  margin: 0 20px 0 0;
+  white-space: nowrap;
+  font-size: 22px;
+  line-height: 1.23;
+}

@@ -1,0 +1,23 @@
+.sidebar {
+  background-color: var(--primary);
+  color: #fff;
+}
+.sidebar h2 {
+  margin: 10px 20px;
+  font-size: 22px;
+  font-weight: normal;
+}
+.sidebar li {
+  font-weight: normal;
+}
+.sidebar li a {
+  width: 100%;
+  padding: 10px 20px 10px 30px;
+  display: inline-block;
+  white-space: nowrap;
+  text-decoration: none;
+  color: #fff;
+}
+.active {
+  background-color: var(--white-15);
+}

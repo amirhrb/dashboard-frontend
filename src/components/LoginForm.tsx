@@ -1,3 +1,7 @@
+"use client";
+
+import { useContext, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 //styles
@@ -10,7 +14,13 @@ import * as yup from "yup";
 
 //custom elements
 import Input from "./elements/Input";
-import { Dispatch, SetStateAction } from "react";
+
+//custom hooks
+import useAlert from "../hooks/useAlert";
+import useAuth from "@/hooks/useAuth";
+
+//contexts
+import { UserDataContext } from "./providers/UserContextProvider";
 
 //form validation
 const schema = yup
@@ -21,11 +31,7 @@ const schema = yup
   .required();
 export type FormDataTypes = yup.InferType<typeof schema>;
 
-const LoginForm = ({
-  setShow,
-}: {
-  setShow: Dispatch<SetStateAction<boolean>>;
-}) => {
+const LoginForm = () => {
   const {
     register,
     handleSubmit,
@@ -33,31 +39,83 @@ const LoginForm = ({
   } = useForm<FormDataTypes>({
     resolver: yupResolver(schema),
   });
-  const onSubmit: SubmitHandler<FormDataTypes> = (data) =>
-    setShow((prev) => !prev);
+  const path = usePathname();
+  const { replace } = useRouter();
+
+  // custom hooks
+  const { AlertProvider, setShow } = useAlert(false);
+  const { loginUser, getCurrentUser } = useAuth();
+
+  const { userData, setUserData } = useContext(UserDataContext);
+
+  useEffect(() => {
+    if (userData && userData.status === "authorized") {
+      replace("articles");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData]);
+
+  useEffect(() => {
+    const userDataFn = async () => {
+      await getCurrentUser()
+        .then((res) => {
+          setUserData(res);
+          return;
+        })
+        .catch(() => {
+          return;
+        });
+    };
+    if (!userData) {
+      userDataFn();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [path]);
+
+  const onSubmit: SubmitHandler<FormDataTypes> = async (data) => {
+    await loginUser({
+      email: data.Email,
+      password: data.Password,
+    }).then((res) => {
+      if (res.user) {
+        setUserData({ data: res, status: "authorized" });
+      } else {
+        setShow(true);
+      }
+    });
+  };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <h2>LOGIN</h2>
-      <Input errors={errors} label="Email" register={register} required />
-      <Input
-        type="password"
-        errors={errors}
-        label="Password"
-        register={register}
-        permanentError="Required filed"
-        invalid
-        required
+    <>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <h2>LOGIN</h2>
+        <Input errors={errors} label="Email" register={register} required />
+        <Input
+          type="password"
+          errors={errors}
+          label="Password"
+          register={register}
+          permanentError="Required filed"
+          invalid
+          required
+        />
+        <input
+          type="submit"
+          value="Login"
+          disabled={userData?.status !== "unauthorized"}
+          className="btn btn-primary btn-sm btn-block"
+        />
+        <p className="Text-Style">
+          Don’t have account? <Link href="/register">Register Now</Link>
+        </p>
+      </form>
+      <AlertProvider
+        dismissible
+        status="danger"
+        message="Login Failed!  User name and/or Password is invalid"
+        styles={{ position: "absolute", top: "10px", right: "10px" }}
       />
-      <input
-        type="submit"
-        value="Login"
-        className="btn btn-primary btn-sm btn-block"
-      />
-      <p className="Text-Style">
-        Don’t have account? <Link href="/register">Register Now</Link>
-      </p>
-    </form>
+    </>
   );
 };
 
