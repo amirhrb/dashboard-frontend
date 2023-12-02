@@ -5,6 +5,7 @@ import HelveticaNeueFont from "@/fonts/HelveticaNeue/font";
 
 //default css
 import "bootstrap/dist/css/bootstrap.css";
+import "./custom.scss";
 import "./globals.css";
 
 //load bootstrap js bundle on-mount
