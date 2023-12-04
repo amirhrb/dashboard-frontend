@@ -1,14 +1,23 @@
 $theme-colors: (
   "primary": #1c7cd5,
   "info": #5bc0de,
-  "danger": #d9534f,
+  "danger": #cb2e25,
   "success": #5cb85c,
   "warning": #f0ad4e,
 );
 $alert-margin-bottom: 0;
 .alert {
-  padding: 15px;
-  white-space: nowrap;
+  max-width: calc(100vw - 20px);
+}
+.badge {
+  margin: 5px 2px;
+}
+.modal-body {
+  text-align: start;
+  min-height: 90px;
+}
+.modal .btn {
+  padding: 10px 25px;
 }
 
 @import "bootstrap/scss/bootstrap";

@@ -10,7 +10,7 @@ const NestedLayout = ({ children }: { children: React.ReactNode }) => {
       <Header />
       <div className={styles.gridContainer}>
         <Aside />
-        <main>{children}</main>
+        <main className={styles.contentContainer}>{children}</main>
       </div>
     </>
   );

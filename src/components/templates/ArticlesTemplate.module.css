@@ -1,3 +1,8 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .container thead {
   background-color: var(--silver);
   color: var(--gunmetal);
@@ -6,8 +11,4 @@
 }
 .container thead th {
   padding: 10px 20px;
-}
-.container tbody td {
-  text-align: center;
-  padding: 20px 0;
 }

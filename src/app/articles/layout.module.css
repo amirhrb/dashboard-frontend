@@ -1,19 +1,21 @@
 .gridContainer {
-  min-height: calc(100svh - var(--header-min-size));
+  height: calc(100svh - var(--header-min-size));
   display: grid;
   grid-template-columns: 2fr 10fr;
 }
-.gridContainer main {
-  padding: 30px;
+.contentContainer {
+  padding: 0 30px 30px 30px;
+  overflow: auto;
   max-width: calc(100svw - 140px);
 }
 @media (max-width: 480px) {
   .gridContainer {
+    height: fit-content;
     grid-template-columns: 1fr;
     grid-template-rows: 60px 1fr;
     align-items: start;
   }
-  .gridContainer main {
+  .contentContainer {
     max-width: 100svw;
   }
 }
