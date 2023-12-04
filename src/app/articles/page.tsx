@@ -20,7 +20,7 @@ export const AlertSearchParams = [
   {
     param: "article-edited-status",
     successMessage: "Well done! Article updated successfuly",
-    failureMessage: "something went wrong!",
+    failureMessage: "You are not authorized to update this article",
   },
 ];
 

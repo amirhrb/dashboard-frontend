@@ -43,8 +43,12 @@ const CreateTemplate = () => {
     mutationFn: editArticle,
     onSuccess: (e) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["articles"] });
-      router.push("/articles?article-edited-status=success");
+      if (e.response && e.response.status === 403) {
+        router.push("/articles?article-edited-status=failure");
+      } else {
+        router.push("/articles?article-edited-status=success");
+        queryClient.invalidateQueries({ queryKey: ["articles"] });
+      }
     },
   });
   const {
