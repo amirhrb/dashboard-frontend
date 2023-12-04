@@ -12,6 +12,7 @@ import styles from "./LoginForm.module.css";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+
 //custom elements
 import Input from "../elements/Input";
 //custom hooks
@@ -23,13 +24,14 @@ import { UserDataContext } from "../providers/UserContextProvider";
 //form validation
 const schema = yup
   .object({
+    User: yup.string().required("Required field"),
     Email: yup.string().email().required("Required field"),
     Password: yup.string().required("Required field"),
   })
   .required();
 export type FormDataTypes = yup.InferType<typeof schema>;
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const {
     register,
     handleSubmit,
@@ -42,7 +44,7 @@ const LoginForm = () => {
 
   // custom hooks
   const { AlertProvider, setAlert } = useAlert();
-  const { loginUser, getCurrentUser } = useAuth();
+  const { registerUser, getCurrentUser } = useAuth();
 
   const { userData, setUserData } = useContext(UserDataContext);
 
@@ -71,26 +73,47 @@ const LoginForm = () => {
   }, [path]);
 
   const onSubmit: SubmitHandler<FormDataTypes> = async (data) => {
-    await loginUser({
+    await registerUser({
+      username: data.User,
       email: data.Email,
       password: data.Password,
-    }).then((res) => {
-      if (res.user) {
-        setUserData({ data: res, status: "authorized" });
-      } else {
-        setAlert({
-          isShowed: true,
-          variant: "danger",
-          message: "Login Failed!  User name and/or Password is invalid",
-        });
-      }
-    });
+    })
+      .then((data) => {
+        if (data.user) {
+          setUserData({ data: data, status: "authorized" });
+        } else {
+          if (
+            data.response.data.errors.email ||
+            data.response.data.errors.email
+          ) {
+            setAlert({
+              isShowed: true,
+              variant: "danger",
+              message: "Failed! Username and/or Password is already taken",
+            });
+          } else {
+            setAlert({
+              isShowed: true,
+              variant: "danger",
+              message: "Failed! Username and/or Password is invalid",
+            });
+          }
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
     <>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <h2>LOGIN</h2>
+        <h2>Register</h2>
+        <Input
+          type="text"
+          errors={errors}
+          label="User"
+          register={register}
+          required
+        />
         <Input
           type="text"
           errors={errors}
@@ -109,12 +132,12 @@ const LoginForm = () => {
         />
         <input
           type="submit"
-          value="Login"
+          value="Register"
           disabled={userData?.status !== "unauthorized"}
           className="btn btn-primary btn-sm btn-block"
         />
         <p className="Text-Style">
-          Don’t have account? <Link href="/register">Register Now</Link>
+          Already Registered? <Link href="/">Login</Link>
         </p>
       </form>
       <AlertProvider
@@ -124,4 +147,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
