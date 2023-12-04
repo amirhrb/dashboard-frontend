@@ -1,7 +1,9 @@
 "use client";
 
-import { handleLocalStorage } from "@/utils/localstorageFn";
+// 3rd party lib
 import axios from "axios";
+// costum Fn
+import { handleLocalStorage } from "@/utils/localstorageFn";
 
 export type UserDataTypes = {
   user: {
@@ -69,10 +71,7 @@ const useAuth = () => {
     });
 
     const userData = await axios
-      .post(`${basePath}/users`, {
-        body,
-        headers,
-      })
+      .post(`${basePath}/users`, body, { headers })
       .then(({ data }) => {
         if (data.user) handleLocalStorage("token", data.user.token);
         return data;

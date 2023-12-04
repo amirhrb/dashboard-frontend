@@ -16,6 +16,7 @@ import QueryProvider from "@/components/providers/QueryProvider";
 
 //context
 import AuthContextProvider from "@/components/providers/UserContextProvider";
+import TagsProvider from "@/components/providers/TagsProvider";
 
 export const metadata: Metadata = {
   title: "Arvan Challenge Dashboard",
@@ -31,9 +32,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={HelveticaNeueFont.className}>
         <QueryProvider>
-          <AuthContextProvider>{children}</AuthContextProvider>
+          <AuthContextProvider>
+            <BootstrapClient>
+              <TagsProvider>{children}</TagsProvider>
+            </BootstrapClient>
+          </AuthContextProvider>
         </QueryProvider>
-        <BootstrapClient />
       </body>
     </html>
   );
