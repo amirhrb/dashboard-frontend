@@ -1,10 +1,8 @@
 // react next
-import { useContext, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 // styles
 import styles from "./CreateTemplate.module.css";
-// types
-import { AlertTypes, SetAlertTypes } from "../../../types/types";
 // coomponents
 import TagCheckboxes from "../modules/TagCheckboxes";
 import Input from "../elements/Input";
@@ -14,8 +12,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 // https and query
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postArticle } from "@/utils/httpRequests";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { editArticle, getArticle } from "@/utils/httpRequests";
 // context
 import { TagsContext } from "../providers/TagsProvider";
 // fns
@@ -32,41 +30,73 @@ const schema = yup
 export type CreateFormDataTypes = yup.InferType<typeof schema>;
 
 const CreateTemplate = () => {
+  const { slug }: { slug: string } = useParams();
   const router = useRouter();
+
+  const queryClient = useQueryClient();
+
+  const { data, isPending, isError } = useQuery({
+    queryFn: () => getArticle(slug),
+    queryKey: ["articles", slug],
+  });
+  const editArticleMutation = useMutation({
+    mutationFn: editArticle,
+    onSuccess: (e) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["articles"] });
+      router.push("/articles?article-edited-status=success");
+    },
+  });
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<CreateFormDataTypes>({
     resolver: yupResolver(schema),
   });
-  // get all existing tags
   const tagsContextData = useContext(TagsContext);
 
   const [tagValue, setTagValue] = useState("");
   const [articleTags, setArticleTags] = useState(tagsContextData.tags);
 
-  const queryClient = useQueryClient();
-
-  const postArticleMutation = useMutation({
-    mutationFn: postArticle,
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["articles"] });
-      router.push("/articles?article-created-status=success");
-    },
-  });
+  useEffect(() => {
+    if (!isError && !isPending) {
+      setValue("Body", data.data.article.body);
+      setValue("Description", data.data.article.description);
+      setValue("Title", data.data.article.title);
+      if (data.data.article.tagList.length) {
+        const checkedTags = data.data.article.tagList.map((tag: string) => ({
+          tag: tag,
+          checked: true,
+        }));
+        const checkedTagsTexts = checkedTags.map(
+          (data: { tag: string; checked: boolean }) => data.tag
+        );
+        setArticleTags(() => {
+          const tagsWithOutRepeat = tagsContextData.tags.filter(
+            (data) => !checkedTagsTexts.includes(data.tag)
+          );
+          return [...tagsWithOutRepeat, ...checkedTags];
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPending]);
 
   const onSubmit: SubmitHandler<CreateFormDataTypes> = async (data) => {
     const checkedTags = articleTags
       .filter((tag) => tag.checked)
       .map((tag) => tag.tag);
-    postArticleMutation.mutate({
-      article: {
-        body: data.Body,
-        description: data.Description,
-        title: data.Title,
-        tagList: checkedTags,
+    editArticleMutation.mutate({
+      slug,
+      data: {
+        article: {
+          body: data.Body,
+          description: data.Description,
+          title: data.Title,
+          tagList: checkedTags,
+        },
       },
     });
   };
@@ -86,6 +116,7 @@ const CreateTemplate = () => {
               placeholder="Title"
               register={register}
               permanentError="Required filed"
+              disabled={editArticleMutation.isPending || isPending || isPending}
               invalid
               required
             />
@@ -95,6 +126,7 @@ const CreateTemplate = () => {
               label="Description"
               placeholder="Description"
               register={register}
+              disabled={editArticleMutation.isPending || isPending}
               required
             />
             <Textarea
@@ -102,6 +134,7 @@ const CreateTemplate = () => {
               label="Body"
               register={register}
               rows={6}
+              disabled={editArticleMutation.isPending || isPending}
               required
             />
           </div>
@@ -124,15 +157,23 @@ const CreateTemplate = () => {
                 })
               }
             />
-            <TagCheckboxes tags={articleTags} setTags={setArticleTags} />
+            <TagCheckboxes
+              tags={articleTags}
+              setTags={setArticleTags}
+              disabled={editArticleMutation.isPending || isPending}
+            />
           </div>
         </div>
         <button
           type="submit"
           className="btn btn-primary"
-          disabled={postArticleMutation.isPending}
+          disabled={editArticleMutation.isPending || isPending}
         >
-          Submit
+          {editArticleMutation.isPending
+            ? "Progress..."
+            : isPending
+            ? "Loading..."
+            : "Submit"}
         </button>
       </form>
     </div>
