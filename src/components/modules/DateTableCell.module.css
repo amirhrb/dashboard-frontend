@@ -1,0 +1,10 @@
+.tablesCell {
+  white-space: nowrap;
+}
+.tablesCell span {
+  margin: auto 30px;
+}
+.tablesCell .modal-body {
+  height: 90px;
+  text-align: start;
+}

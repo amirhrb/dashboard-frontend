@@ -12,12 +12,12 @@ const Aside = () => {
       <h2>Post</h2>
       <ul>
         <li>
-          <NavLink activeClassName={styles.active} href="/articles">
+          <NavLink exactActiveClassName={styles.active} href="/articles">
             All Articles
           </NavLink>
         </li>
         <li>
-          <NavLink activeClassName={styles.active} href="/articles/create">
+          <NavLink exactActiveClassName={styles.active} href="/articles/create">
             New Article
           </NavLink>
         </li>
