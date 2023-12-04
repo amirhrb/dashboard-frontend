@@ -3,6 +3,7 @@ import type { UrlObject } from "url";
 export type Url = string | UrlObject;
 export type InternalLinkProps = {
   activeClassName?: string;
+  exactActiveClassName?: string;
   /**
    * The path or URL to navigate to. It can also be an object.
    *
@@ -94,3 +95,28 @@ export type AlertTypes = {
   dismissible?: boolean | undefined;
 };
 export type SetAlertTypes = Dispatch<SetStateAction<AlertTypes>>;
+export type CreateArticleDataTypes = {
+  article: {
+    title: string;
+    description: string;
+    body: string;
+    tagList?: string[];
+  };
+};
+export type ArticleDataTypes = {
+  slug: string;
+  title: string;
+  description: string;
+  body: string;
+  tagList: [] | string[];
+  createdAt: string;
+  updatedAt: string;
+  favorited: boolean;
+  favoritesCount: number;
+  author: {
+    username: string;
+    bio: null | string;
+    image: string;
+    following: boolean;
+  };
+};
