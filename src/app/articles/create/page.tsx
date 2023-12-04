@@ -9,7 +9,7 @@ const Page = () => {
   return (
     <>
       <MainHeading heading="New Article" AlertProvider={AlertProvider} />
-      <CreateTemplate setAlert={setAlert} alertData={alertData} />
+      <CreateTemplate />
     </>
   );
 };

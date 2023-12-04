@@ -11,18 +11,7 @@ import useAlert from "@/hooks/useAlert";
 
 // because being Alert provider inside higher branch best way to handle alerts is search query params
 // param and message should be added here
-export const AlertSearchParams = [
-  {
-    param: "article-created-status",
-    successMessage: "Well done! Article created successfuly",
-    failureMessage: "something went wrong!",
-  },
-  {
-    param: "article-edited-status",
-    successMessage: "Well done! Article updated successfuly",
-    failureMessage: "You are not authorized to update this article",
-  },
-];
+import { AlertSearchParams } from "@/utils/AlertSearchParams";
 
 const Page = () => {
   const path = usePathname();
