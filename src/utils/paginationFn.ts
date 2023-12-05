@@ -16,7 +16,7 @@ export const paginationHandler = ({
   let middleButtonsNumbers;
   if (page === 1)
     middleButtonsNumbers = Array.from(Array(buttonsCount).keys()).map(
-      (_i, index) => index
+      (_i, index) => index + 1
     );
   else
     middleButtonsNumbers = Array.from(Array(buttonsCount).keys()).map(
